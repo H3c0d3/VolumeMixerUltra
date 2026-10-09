@@ -1,0 +1,30 @@
+name: Build EarTrumpet
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v2
+
+    - name: Restore NuGet Packages
+      run: nuget restore EarTrumpet.vs15.sln
+
+    - name: Build Solution
+      run: msbuild EarTrumpet.vs15.sln /p:Configuration=Release /p:Platform="Any CPU"
+
+    - name: Upload Compiled Executable
+      uses: actions/upload-artifact@v4
+      with:
+        name: EarTrumpet-Build
+        path: EarTrumpet/bin/Release/
