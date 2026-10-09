@@ -25,7 +25,7 @@ jobs:
     - name: Build EarTrumpet Executable
       shell: cmd
       run: |
-        msbuild EarTrumpet/EarTrumpet.csproj /p:Platform=x86 /p:Configuration=Release /p:OutputPath="%GITHUB_WORKSPACE%\artifacts\" -maxcpucount
+        msbuild EarTrumpet/EarTrumpet.csproj /p:Platform=x86 /p:Configuration=Release /p:OutputPath="%GITHUB_WORKSPACE%/artifacts/" -maxcpucount
 
     - name: Upload Compiled Executable
       uses: actions/upload-artifact@v4
