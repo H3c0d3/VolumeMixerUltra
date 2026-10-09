@@ -10,6 +10,8 @@ jobs:
     steps:
     - name: Checkout Code
       uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
 
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v2
@@ -20,11 +22,13 @@ jobs:
     - name: Restore NuGet Packages
       run: nuget restore EarTrumpet.vs15.sln
 
-    - name: Build Solution
-      run: msbuild EarTrumpet.vs15.sln /p:Configuration=Release /p:Platform="Any CPU"
+    - name: Build EarTrumpet Executable
+      shell: cmd
+      run: |
+        msbuild EarTrumpet/EarTrumpet.csproj /p:Platform=x86 /p:Configuration=Release /p:OutputPath="%GITHUB_WORKSPACE%\artifacts\" -maxcpucount
 
     - name: Upload Compiled Executable
       uses: actions/upload-artifact@v4
       with:
         name: EarTrumpet-Build
-        path: EarTrumpet/bin/Release/
+        path: artifacts/
